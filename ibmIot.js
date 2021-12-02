@@ -22,15 +22,20 @@ const IbmIot = (io) => {
   io.on("connection", (socket) => {
     client.on("message", async function (topic, message) {
       const _Data = JSON.parse(message);
-      socket.emit(_Data.data.device_id, _Data);
+      if (
+        parseInt(_Data.data.temperature) >= 85 &&
+        parseInt(_Data.data.temperature) <= 99
+      ) {
+        socket.emit(_Data.data.device_id, _Data);
+      }
     });
   });
 
   client.on("message", async function (topic, message) {
     const _Data = JSON.parse(message);
-    if (await UserData.exists({ macAddr: _Data.data.device_id })) {
+    if (await UserData.exists({ device_id: _Data.data.device_id })) {
       await UserData.findOneAndUpdate(
-        { macAddr: _Data.data.device_id },
+        { device_id: _Data.data.device_id },
         { data: _Data },
         { new: true }
       );

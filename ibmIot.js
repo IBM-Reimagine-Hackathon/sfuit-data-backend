@@ -22,12 +22,7 @@ const IbmIot = (io) => {
   io.on("connection", (socket) => {
     client.on("message", async function (topic, message) {
       const _Data = JSON.parse(message);
-      if (
-        parseInt(_Data.data.temperature) >= 85 &&
-        parseInt(_Data.data.temperature) <= 99
-      ) {
-        socket.emit(_Data.data.device_id, _Data);
-      }
+      socket.emit(_Data.data.device_id, _Data);
     });
   });
 

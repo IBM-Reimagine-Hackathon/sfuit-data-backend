@@ -17,7 +17,7 @@ const { UserData } = require("./model/UserData");
 const IbmIot = (io) => {
   var client = mqtt.connect(connectOptions);
   client.on("connect", () => {
-    client.subscribe("iot-2/type/ESP32/id/+/evt/+/fmt/json");
+    client.subscribe("iot-2/type/+/id/+/evt/+/fmt/json");
   });
   io.on("connection", (socket) => {
     client.on("message", async function (topic, message) {

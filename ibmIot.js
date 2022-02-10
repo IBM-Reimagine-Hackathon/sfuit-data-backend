@@ -28,6 +28,7 @@ const IbmIot = (io) => {
 
   client.on("message", async function (topic, message) {
     const _Data = JSON.parse(message);
+    console.log("meesage", { _Data });
     if (await UserData.exists({ device_id: _Data.data.device_id })) {
       await UserData.findOneAndUpdate(
         { device_id: _Data.data.device_id },
